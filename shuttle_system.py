@@ -1,5 +1,5 @@
 import json
-import random
+import secrets
 from datetime import datetime
 
 # Global state
@@ -23,16 +23,13 @@ def average_load(route_id):
 def underused_routes():
     flagged = []
     for r in routes:
-        try:
-            if average_load(r) < MIN_CAPACITY:
-                flagged.append(r)
-        except:
-            pass
+        if routes[r]["trips"] and average_load(r) < MIN_CAPACITY:
+            flagged.append(r)
     return flagged
 
 def assignDriver(route_id):
     drivers = ["Prakash", "Leela", "Imran", "Tom"]
-    return random.choice(drivers)
+    return secrets.choice(drivers)
 
 def sync_fleet_data(file="fleet.json"):
     global routes
