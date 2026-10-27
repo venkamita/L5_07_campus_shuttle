@@ -13,6 +13,7 @@ ROUTES = {"R1": {"name": "Main Gate - Library", "trips": []},
 MIN_CAPACITY = 10
 DRIVERS = ["Prakash", "Leela", "Imran", "Tom"]
 
+
 def add_trip_log(route_id, passenger_count, logs=None):
     """Record a trip's passenger count and append a log line.
 
@@ -30,9 +31,11 @@ def add_trip_log(route_id, passenger_count, logs=None):
     logs.append(f"{datetime.now()}: {route_id} carried {passenger_count}")
     return logs
 
+
 def remove_route(route_id):
     """Remove a route from the fleet if it exists."""
     ROUTES.pop(route_id, None)
+
 
 def average_load(route_id):
     """Return the average passengers per trip, or None if no data."""
@@ -41,6 +44,7 @@ def average_load(route_id):
         return None
     trips = route["trips"]
     return sum(trips) / len(trips)
+
 
 def underused_routes():
     """Return route ids whose average load is below MIN_CAPACITY."""
@@ -51,9 +55,11 @@ def underused_routes():
             flagged.append(route_id)
     return flagged
 
+
 def assign_driver():
     """Pick a driver for a route."""
     return secrets.choice(DRIVERS)
+
 
 def sync_fleet_data(file="fleet.json"):
     """Write the fleet data to disk and reload it into ROUTES."""
@@ -64,12 +70,14 @@ def sync_fleet_data(file="fleet.json"):
     ROUTES.clear()
     ROUTES.update(loaded)
 
+
 def log_trip_safely(route_id, passenger_count):
     """Log a trip, reporting invalid input instead of crashing."""
     try:
         add_trip_log(route_id, passenger_count)
     except (KeyError, ValueError) as err:
         print("Skipped:", err)
+
 
 def main():
     """Run a short demo of the shuttle tracker."""
@@ -90,6 +98,7 @@ def main():
         print("No such route:", choice)
     avg = average_load("R3")
     print("R3 average:", avg if avg is not None else "no data")
+
 
 if __name__ == "__main__":
     main()
